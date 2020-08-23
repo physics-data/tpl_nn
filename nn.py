@@ -22,3 +22,5 @@ argmax = None
 
 # TODO: store the correct data in correct name
 #output_file.create_dataset('name',data=)
+
+# TODO: compute the derivative
