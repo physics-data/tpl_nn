@@ -63,10 +63,10 @@ if __name__ == '__main__':
                                     np.array(ans['argmax']))
                     success = False
                     dump_error.append({input: message})
-                elif (np.array(std['fc1']) != np.array(ans['fc1'])).any():
-                    message = 'fc1 expect \'{}\', but get \'{}\''\
-                            .format(np.array(std['fc1']),
-                                    np.array(ans['fc1']))
+                elif (np.array(std['fc1_max_pos']) != np.array(ans['fc1_max_pos'])).any():
+                    message = 'fc1_max_pos expect \'{}\', but get \'{}\''\
+                            .format(np.array(std['fc1_max_pos']),
+                                    np.array(ans['fc1_max_pos']))
                     derivative_suc = False
                     dump_error.append({input: message})
                 else:
