@@ -34,10 +34,10 @@ The loss is computed in the following way
 
 To minimize the loss, we can use derivative to update the weights as $E$ is a function of all weights. The gradient for all the weights can be obtained in a way similar to the following process.
 \begin{align*}
-  \pfrac{E}{v^{(3)_i}}&=v^{(3)}_i-y_i\\
+  \pfrac{E}{v^{(3)}_i}&=v^{(3)}_i-y_i\\
   \pfrac{E}{W^{(2)}_{i,j}}\
-  &=\pfrac{E}{v^{(3)_i}}\pfrac{v^{(3)}_i}{W^{(2)}_{i,j}}\\
-  &=\pfrac{E}{v^{(3)_i}}v^{(2)}_j\\
+  &=\pfrac{E}{v^{(3)}_i}\pfrac{v^{(3)}_i}{W^{(2)}_{i,j}}\\
+  &=\pfrac{E}{v^{(3)}_i}v^{(2)}_j\\
   \pfrac{E}{v^{(2)}_j}
   &=\sum_i\pfrac{E}{v^{(3)}_i}\pfrac{v^{(3)}_i}{v^{(2)}_{j}}\\
   &=\sum_i\pfrac{E}{v^{(3)}_i}W^{(2)}_{i,j}\\
