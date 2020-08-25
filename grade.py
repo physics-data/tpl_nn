@@ -57,11 +57,19 @@ if __name__ == '__main__':
             else:
                 std = h5py.File(output, 'r')
                 ans = h5py.File(test_filename, 'r')
-                if np.array(std['argmax']) != np.array(ans['argmax']):
+                if 'argmax' not in ans:
+                    message = 'no argmax in output'
+                    success = False
+                    dump_error.append({input: message})
+                elif np.array(std['argmax']) != np.array(ans['argmax']):
                     message = 'argmax expect \'{}\', but get \'{}\''\
                             .format(np.array(std['argmax']), 
                                     np.array(ans['argmax']))
                     success = False
+                    dump_error.append({input: message})
+                elif 'fc1_max_pos' not in ans:
+                    message = 'no fc1_max_pos in output'
+                    derivative_suc = False
                     dump_error.append({input: message})
                 elif (np.array(std['fc1_max_pos']) != np.array(ans['fc1_max_pos'])).any():
                     message = 'fc1_max_pos expect \'{}\', but get \'{}\''\
