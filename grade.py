@@ -56,7 +56,11 @@ if __name__ == '__main__':
                 dump_error.append({input: message})
             else:
                 std = h5py.File(output, 'r')
-                ans = h5py.File(test_filename, 'r')
+                try:
+                    ans = h5py.File(test_filename, 'r')
+                except:
+                    success = False
+                    break
                 if 'argmax' not in ans:
                     message = 'no argmax in output'
                     success = False
@@ -96,10 +100,7 @@ if __name__ == '__main__':
     if os.isatty(1):
         print('Total Points: {}/100'.format(grade))
     else:
-        if len(dump_error) == 0:
-            print(json.dumps({'grade': grade}))
-        else:
-            print(json.dumps({'grade': grade, 'error': dump_error}))
+        print(json.dumps({'grade': grade}))
 
     try:
         os.remove(test_filename)
