@@ -4,23 +4,28 @@ import sys
 import h5py
 import numpy as np
 
-# TODO: open input/output hdf5 files
-input_file = None
-output_file = None
+input_file = h5py.File(sys.argv[1], 'r')
+output_file = h5py.File(sys.argv[2], 'w')
 
-# TODO: access dataset and store them in numpy arrays
-fc1 = np.array(0)
-fc2 = None
-vec = None
+fc1 = np.array(input_file['nn']['fc1'])
+fc2 = np.array(input_file['nn']['fc2'])
+vec = np.array(input_file['nn']['vec'])
+y   = np.array(input_file['nn']['y'])
 
-# TODO: use numpy related function to realize the computation
-# HINT: you can use np.dot, np.maximum and np.argmax
-imm = None
-relu = None 
-res = None
-argmax = None
+imm = fc1.dot(vec)
+relu = np.maximum(0, imm)
+res = fc2.dot(relu)
+argmax = np.argmax(res)
 
-# TODO: store the correct data in correct name
-#output_file.create_dataset('name',data=)
+output_file.create_dataset('argmax', data=argmax)
 
-# TODO: compute the derivative
+Edres = res - y
+Edfc2 = np.outer(Edres, relu)
+Edrelu = fc2.T.dot(Edres)
+relu_copy = relu.copy()
+relu_copy[relu.nonzero()] = 1
+Edimm = Edrelu * relu_copy
+Edfc1 = np.abs(np.outer(Edimm, vec))
+
+fc1_index = np.unravel_index(Edfc1.argmax(), Edfc1.shape)
+output_file.create_dataset('fc1_max_pos', data=fc1_index)
